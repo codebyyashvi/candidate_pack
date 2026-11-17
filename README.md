@@ -3,7 +3,37 @@
 ## Overview & Architecture
 This command-line tool verifies factual claims in incident reports against heterogeneous, unsynchronized machine records. It runs completely offline without network access or LLM dependencies (`make test`).
 
-### How It Works
+---
+
+## Run Instructions
+
+### 1. Run the Tool on the Sample
+Provide the path to the report file and the records directory:
+
+- **Linux / macOS**:
+  ```bash
+  python3 plearun_cli.py reports/report_fictional_02.txt records > findings.json
+  ```
+- **Windows PowerShell**:
+  ```powershell
+  python plearun_cli.py reports/report_fictional_02.txt records | Set-Content -Encoding utf8 findings.json
+  ```
+
+*(Note: `RECORDS_DIR` defaults to `"records"` if omitted, so `python plearun_cli.py reports/report_fictional_02.txt` also runs directly).*
+
+### 2. Run Offline Tests
+- Using `make`:
+  ```bash
+  make test
+  ```
+- Or directly via Python:
+  ```bash
+  python -m unittest discover -s tests -v
+  ```
+
+---
+
+## How It Works
 1. **Multi-Format Ingestion (`plearun/loader.py`)**: Reads varied file formats preserving exact raw line bytes for citation auditing:
    - CSV with UTF-8 BOM (`\ufeff`) and `#PLEARUN` marker/comment lines (`camera_log.csv`).
    - Windows-1252 / CP1252 encoded CSV with quoted fields (`notes_cp1252.csv`).
