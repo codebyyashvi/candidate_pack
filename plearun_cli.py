@@ -39,12 +39,16 @@ def run_pipeline(report_path: str, records_dir: str) -> dict:
 
 
 def main():
-    if len(sys.argv) < 3:
-        print(f"Usage: {sys.argv[0]} REPORT RECORDS_DIR", file=sys.stderr)
+    if len(sys.argv) < 2:
+        print(f"Usage: {sys.argv[0]} REPORT [RECORDS_DIR]", file=sys.stderr)
         sys.exit(2)
 
     report_path = sys.argv[1]
-    records_dir = sys.argv[2]
+    if len(sys.argv) >= 3:
+        records_dir = sys.argv[2]
+    else:
+        # Default to 'records' if omitted
+        records_dir = "records"
 
     try:
         output_dict = run_pipeline(report_path, records_dir)
